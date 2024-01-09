@@ -114,7 +114,7 @@ function isIsoscelesTriangle(a, b, c) {
  * Converts a number to Roman numerals. The number will be between 1 and 39.
  * In this task, the use of methods of the String and Array classes is not allowed.
  *
- * @param {number} num - The number to convert.
+ * @param {number} number - The number to convert.
  * @return {string} The Roman numeral representation of the number.
  *
  * @example:
@@ -124,8 +124,8 @@ function isIsoscelesTriangle(a, b, c) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(num) {
-  let currentNumber = num;
+function convertToRomanNumerals(number) {
+  let currentNumber = number;
   const roman = [
     'M',
     'CM',
@@ -293,7 +293,7 @@ function getIndexOf(str, letter) {
  * Checks if a number contains a specific digit.
  * In this task, the use of methods of the String and Array classes is not allowed.
  *
- * @param {number} num - The number to check.
+ * @param {number} number - The number to check.
  * @param {number} digit - The digit to search for.
  * @return {boolean} True if the number contains the digit, false otherwise.
  *
@@ -304,8 +304,8 @@ function getIndexOf(str, letter) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(num, digit) {
-  const numStr = `${num}`;
+function isContainNumber(number, digit) {
+  const numStr = `${number}`;
   const digitStr = `${digit}`;
 
   for (let i = 0; i < numStr.length; i += 1) {
@@ -352,12 +352,12 @@ function getBalanceIndex(arr) {
 }
 
 /**
- * Generates a spiral matrix of a given size, filled with numbers in ascending order starting from one.
+ * Generates a spiral spiralMatrix of a given size, filled with numbers in ascending order starting from one.
  * The direction of filling with numbers is clockwise.
  * Usage of String and Array classes methods is not allowed in this task.
  *
- * @param {number} size - The size of the matrix.
- * @return {number[][]} The spiral matrix.
+ * @param {number} size - The size of the spiralMatrix.
+ * @return {number[][]} The spiral spiralMatrix.
  *
  * @example:
  *        [
@@ -372,8 +372,51 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const spiralMatrix = [];
+
+  for (let i = 0; i < size; i += 1) {
+    spiralMatrix[i] = [];
+  }
+
+  let value = 1;
+
+  let startRow = 0;
+  let endRow = size - 1;
+  let startCol = 0;
+  let endCol = size - 1;
+
+  while (startRow <= endRow && startCol <= endCol) {
+    for (let i = startCol; i <= endCol; i += 1) {
+      spiralMatrix[startRow][i] = value;
+      value += 1;
+    }
+    startRow += 1;
+
+    for (let i = startRow; i <= endRow; i += 1) {
+      spiralMatrix[i][endCol] = value;
+      value += 1;
+    }
+    endCol -= 1;
+
+    if (startRow <= endRow) {
+      for (let i = endCol; i >= startCol; i -= 1) {
+        spiralMatrix[endRow][i] = value;
+        value += 1;
+      }
+      endRow -= 1;
+    }
+
+    if (startCol <= endCol) {
+      for (let i = endRow; i >= startRow; i -= 1) {
+        spiralMatrix[i][startCol] = value;
+        value += 1;
+      }
+      startCol += 1;
+    }
+  }
+
+  return spiralMatrix;
 }
 
 /**
@@ -391,8 +434,27 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const rotatedMatrix = matrix;
+  const matrixLength = rotatedMatrix.length;
+
+  for (let i = 0; i < matrixLength / 2; i += 1) {
+    for (let j = i; j < matrixLength - 1 - i; j += 1) {
+      const temp = rotatedMatrix[i][j];
+
+      rotatedMatrix[i][j] = rotatedMatrix[matrixLength - 1 - j][i];
+
+      rotatedMatrix[matrixLength - 1 - j][i] =
+        rotatedMatrix[matrixLength - 1 - i][matrixLength - 1 - j];
+
+      rotatedMatrix[matrixLength - 1 - i][matrixLength - 1 - j] =
+        rotatedMatrix[j][matrixLength - 1 - i];
+
+      rotatedMatrix[j][matrixLength - 1 - i] = temp;
+    }
+  }
+
+  return rotatedMatrix;
 }
 
 /**
@@ -409,8 +471,44 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const sortedArr = arr;
+
+  function swap(leftIndex, rightIndex) {
+    const temp = sortedArr[leftIndex];
+    sortedArr[leftIndex] = sortedArr[rightIndex];
+    sortedArr[rightIndex] = temp;
+  }
+
+  function subArray(lowIndex, highIndex) {
+    const pivot = sortedArr[highIndex];
+    let subIndex = lowIndex;
+
+    for (
+      let currentIndex = lowIndex;
+      currentIndex < highIndex;
+      currentIndex += 1
+    ) {
+      if (sortedArr[currentIndex] < pivot) {
+        swap(subIndex, currentIndex);
+        subIndex += 1;
+      }
+    }
+    swap(subIndex, highIndex);
+    return subIndex;
+  }
+
+  function quickSort(lowIndex, highIndex) {
+    if (lowIndex < highIndex) {
+      const subIndex = subArray(lowIndex, highIndex);
+      quickSort(lowIndex, subIndex - 1);
+      quickSort(subIndex + 1, highIndex);
+    }
+  }
+
+  quickSort(0, sortedArr.length - 1);
+
+  return sortedArr;
 }
 
 /**
@@ -430,8 +528,31 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let newString = str;
+  const strings = [newString];
+
+  for (let i = 1; i <= iterations; i += 1) {
+    let oddChars = '';
+    let evenChars = '';
+
+    for (let j = 0; j < newString.length; j += 1) {
+      if (j % 2 === 0) {
+        oddChars += newString[j];
+      } else {
+        evenChars += newString[j];
+      }
+    }
+
+    newString = oddChars + evenChars;
+    strings[i] = newString;
+
+    if (newString === str) {
+      return strings[iterations % i];
+    }
+  }
+
+  return newString;
 }
 
 /**
@@ -451,8 +572,33 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const digits = Array.from(String(number), Number);
+
+  let leftIndex = digits.length - 2;
+  while (leftIndex >= 0 && digits[leftIndex] >= digits[leftIndex + 1]) {
+    leftIndex -= 1;
+  }
+
+  if (leftIndex >= 0) {
+    let rightIndex = digits.length - 1;
+    while (digits[rightIndex] <= digits[leftIndex]) {
+      rightIndex -= 1;
+    }
+
+    [digits[leftIndex], digits[rightIndex]] = [
+      digits[rightIndex],
+      digits[leftIndex],
+    ];
+
+    const rightPart = digits.splice(leftIndex + 1);
+    rightPart.sort((a, b) => a - b);
+    digits.push(...rightPart);
+  }
+
+  const result = Number.parseInt(digits.join(''), 10);
+
+  return Number.isNaN(result) ? number : result;
 }
 
 module.exports = {
