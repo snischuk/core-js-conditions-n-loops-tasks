@@ -1,10 +1,3 @@
-/* eslint-disable prefer-template */
-/* eslint-disable func-names */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-shadow */
-/* eslint-disable no-param-reassign */
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-eval */
 function getRotateMatrixUtil(arr) {
   return eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('(7)=>{c 6=[];c 3=7.d;a(b 4=0;4<3;4+=1){6[4]=[]}a(b 4=0;4<3/2;4+=1){a(b 5=0+4;5<3-1-4;5+=1){6[4][5]=7[3-5-1][4];6[3-5-1][4]=7[3-4-1][3-5-1];6[3-4-1][3-5-1]=7[5][3-4-1];6[5][3-4-1]=7[4][5]}}e(3%2!==0){6[8.9(3/2)][8.9(3/2)]=7[8.9(3/2)][8.9(3/2)]}f 6}',16,16,'|||sizeArray|j|i|matrix|arr|Math|floor|for|let|const|length|if|return'.split('|'),0,{}))(arr);
 }
@@ -41,6 +34,12 @@ function getRandomArrayUtil(min, max, count) {
     return arr;
 }
 
+function checkBalancedArrayUtil(arr, balanceIndex) {
+  const reversedArray = Array.from(arr).reverse();
+  const reversedBalanceIndex = getBalanceIndexUtil(reversedArray);
+  return balanceIndex === arr.length - 1 - reversedBalanceIndex;
+}
+
 function getBalancedArrayUtil(length) {
   const minNumber = -10;
   const maxNumber = 10;
@@ -60,6 +59,9 @@ function getBalancedArrayUtil(length) {
   }
   arr.push(summLeft);
   balanceIndex = getBalanceIndexUtil(arr);
+  if (!checkBalancedArrayUtil(arr, balanceIndex) || summLeft === 0) {
+    return getBalancedArrayUtil(length);
+  }
   return {
     arr,
     balanceIndex,
